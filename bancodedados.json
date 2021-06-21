@@ -1,0 +1,27 @@
+[
+    {
+        "código": 104,
+        "nome": "Óleo de soja",
+        "preço": 7
+    },
+    {
+        "código": 32,
+        "nome": "Arroz",
+        "preço": 10
+    },
+    {
+        "código": 51,
+        "nome": "Brócolis",
+        "preço": 3
+    },
+    {
+        "código": 40,
+        "nome": "Aveia",
+        "preço": 5
+    },
+    {
+        "código": 60,
+        "nome": "Banana",
+        "preço": 4
+    }
+]
