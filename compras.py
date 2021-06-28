@@ -9,7 +9,6 @@ class Compras:
 
     # Adiciona uma quantidade de itens nas compras
     def adicionar_item( self, item, quantidade_adicionada ):
-
         id = item['código']
 
         if id in self.dicionario_compras:
@@ -52,7 +51,6 @@ class Compras:
 
     # Termina as compras com um determinado pagamento
     def finaliza( self, pagamento ):
-        
         total = 0
 
         # Repetição para mostrar todos os elementos da lista

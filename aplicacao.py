@@ -58,3 +58,4 @@ class Aplicacao:
     # Sai da aplicação
     def sair( self ):
         self.executando = False
+        

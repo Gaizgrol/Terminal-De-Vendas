@@ -19,10 +19,12 @@ class BancoDeDados:
             return False
         return True
     
+
     def mostra_ordenacoes():
         opcoes = BancoDeDados.opcoes
         for opcao in opcoes:
             print( opcao + ': ' + opcoes[opcao] )
+
 
     def __init__( self, caminho ):
         self.codigo_produtos = self.busca_produtos_do_banco( caminho )
@@ -37,11 +39,12 @@ class BancoDeDados:
                 
             return dicionario
 
+
     def produto_existe( self, codigo ):
         return codigo in self.codigo_produtos
 
+
     def mostra_produtos( self, ordenacao ):
-        
         campo = BancoDeDados.opcoes[ordenacao]
 
         lista = []
@@ -53,6 +56,7 @@ class BancoDeDados:
         
         for produto in lista:
             print( "[" + str( produto['código'] ) + "] " + produto['nome'] + ' R$' + str( produto['preço'] ) )
+
 
     def pesquisa_produto( self, codigo ):
         return self.codigo_produtos[ codigo ]
