@@ -8,12 +8,16 @@ class Aplicacao:
         self.executando = True
 
     def adiciona_compra( self, id_produto, quantidade ):
-        # Conversão/validação de dados
-        id_produto = int( id_produto )
-        quantidade = int( quantidade )
+        # Conversão de dados
+        try:
+            id_produto = int( id_produto )
+            quantidade = int( quantidade )
+        except:
+            raise Exception( 'Valor(es) inválido(s)' )
+
         if not self.banco.produto_existe( id_produto ):
-            print( 'Não encontramos o produto com o código informado!' )
-            return
+            raise Exception( 'Não existe produto com o código informado!' )
+
         # Chamar as models
         produto = self.banco.pesquisa_produto( id_produto )
         self.compras.adicionar_item( produto, quantidade )
@@ -21,38 +25,51 @@ class Aplicacao:
 
     def remove_compra( self, id_produto, quantidade ):
         # Conversão/validação de dados
-        id_produto = int( id_produto )
-        quantidade = int( quantidade )
+        try:
+            id_produto = int( id_produto )
+            quantidade = int( quantidade )
+        except:
+            raise Exception( 'Valor(es) inválido(s)' )
+
         if not self.compras.esta_nas_compras( id_produto ):
-            print( 'Não encontramos a compra do produto com o código informado!' )
-            return
+            raise Exception( 'Não há compra com o código informado!' )
+        
         # Chamar as models
         self.compras.remover_item( id_produto, quantidade )
 
 
-    def mostra_compras( self ):
-        # Chamar as models
-        self.compras.mostra()
+    def mostra_compras( self, window ):
+        # Pega os valores
+        lista, total = self.compras.mostra()
+        # Atualiza a tela
+        window['-COMPRAS-'].update( lista )
+        window['-TXT-TOTAL-'].update( 'Total: R$ ' + str(total) )
 
 
-    def finaliza_compra( self, valor ):
-        # Conversão/validação de dados
-        valor = int( valor )
+    def finaliza_compra( self, valor, window ):
+        # Conversão de dados
+        try:
+            valor = int( valor )
+        except:
+            raise Exception( 'Valor inválido!' )
+        
+        # Validação
         if valor <= 0:
-            print( 'Valor inválido!' )
-            return
+            raise Exception( 'Valor precisa ser positivo!' )
+
         # Chamar as models
-        self.compras.finaliza( valor )
+        troco = self.compras.finaliza( valor )
+        
+        window['-TXT-TROCO-'].update( 'Troco: R$' + str( troco ) )
 
 
     # Valida os dados e busca os produtos do banco
-    def busca_produtos( self, tipo_ordenacao ):
+    def busca_produtos( self, tipo_ordenacao, window ):
         if not BancoDeDados.valida_ordenacao( tipo_ordenacao ):
-            print( 'Valor de ordenação inválido!' )
-            BancoDeDados.mostra_ordenacoes()
-            return
+            raise Exception( 'Valor de ordenação inválido!' )
         # Chamar as models
-        self.banco.mostra_produtos( tipo_ordenacao )
+        produtos = self.banco.mostra_produtos( tipo_ordenacao )
+        window['-PRODUTOS-']( produtos )
 
 
     # Sai da aplicação

@@ -54,8 +54,12 @@ class BancoDeDados:
         
         lista.sort( key=lambda produto: produto[campo] )
         
+        lista_str = []
+
         for produto in lista:
-            print( "[" + str( produto['código'] ) + "] " + produto['nome'] + ' R$' + str( produto['preço'] ) )
+            lista_str.append( "[" + str( produto['código'] ) + "] " + produto['nome'] + ' R$' + str( produto['preço'] ) )
+
+        return lista_str
 
 
     def pesquisa_produto( self, codigo ):
