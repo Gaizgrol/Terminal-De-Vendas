@@ -1,10 +1,11 @@
-from bd import BancoDeDados
+from banco_de_dados import BancoDeDados
 from compras import Compras
 
 class Aplicacao:
     def __init__( self ):
         self.banco = BancoDeDados( 'bancodedados.json' )
         self.compras = Compras()
+        self.lista_produtos = []
         self.executando = True
 
     def adiciona_compra( self, id_produto, quantidade ):
@@ -67,10 +68,34 @@ class Aplicacao:
     def busca_produtos( self, tipo_ordenacao, window ):
         if not BancoDeDados.valida_ordenacao( tipo_ordenacao ):
             raise Exception( 'Valor de ordenação inválido!' )
-        # Chamar as models
-        produtos = self.banco.mostra_produtos( tipo_ordenacao )
-        window['-PRODUTOS-']( produtos )
+        # Busca dados dos produtos e os textos para visualização
+        produtos, produtos_str = self.banco.mostra_produtos( tipo_ordenacao )
+        self.lista_produtos = produtos
+        window['-PRODUTOS-']( produtos_str )
 
+    def atualiza_produto( self, produto ):
+        try:
+            codigo = int( produto['código'] )
+            nome = produto['nome']
+            preco = int( produto['preço'] )
+        except:
+            raise Exception( 'Valor(es) inválido(s)!' )
+
+        self.banco.atualiza_produto( codigo, nome, preco )
+
+    def adiciona_produto( self, produto ):
+        try:
+            nome = produto['nome']
+            preco = int( produto['preço'] )
+        except:
+            raise Exception( 'Valor(es) inválido(s)!' )
+        
+        self.banco.adiciona_produto( nome, preco )
+
+
+    def autentica( self, chave ):
+        if not self.banco.autentica( chave ):
+            raise Exception( 'Chave incorreta!' )
 
     # Sai da aplicação
     def sair( self ):
