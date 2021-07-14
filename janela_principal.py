@@ -1,5 +1,6 @@
 from PySimpleGUI import WINDOW_CLOSED
 from janela_produtos import JanelaProdutos
+from janela_transacoes import JanelaTransacoes
 import PySimpleGUI as sg
 import time
 
@@ -17,6 +18,9 @@ class JanelaPrincipal:
             [ sg.Button( 'Pesquisar produtos', key='-BTN-PESQ-' ), sg.Button( 'Sair', button_color='red', key='-BTN-SAIR-' ) ],
 
             [ sg.Text( '______________________________________________________________', text_color='white' ) ],
+
+            # Histórico de compras
+            [ sg.Button( 'Histórico de compras', key='-BTN-HIST-' ) ],
 
             # Lista de compras
             [ sg.Text( 'Compras:' ) ],
@@ -102,7 +106,7 @@ class JanelaPrincipal:
 
             elif event == '-BTN-REM-TUDO-':
                 self.app.compras.dicionario_compras.clear()
-                self.limpa_terminal()
+                self.limpa()
 
             elif event == "-BTN-PGTO-":
                 try:
@@ -122,6 +126,9 @@ class JanelaPrincipal:
 
             elif event == "-BTN-PESQ-":
                 JanelaProdutos( self.app )
+
+            elif event == '-BTN-HIST-':
+                JanelaTransacoes( self.app )
 
     def limpa( self ):
 

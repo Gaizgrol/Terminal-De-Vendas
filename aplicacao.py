@@ -47,19 +47,22 @@ class Aplicacao:
         window['-TXT-TOTAL-'].update( 'Total: R$ ' + str(total) )
 
 
-    def finaliza_compra( self, valor, window ):
+    def finaliza_compra( self, pago, window ):
         # Conversão de dados
         try:
-            valor = int( valor )
+            pago = int( pago )
         except:
             raise Exception( 'Valor inválido!' )
         
         # Validação
-        if valor <= 0:
+        if pago <= 0:
             raise Exception( 'Valor precisa ser positivo!' )
 
         # Chamar as models
-        troco = self.compras.finaliza( valor )
+        id_compra = self.banco.adiciona_compra( pago )
+        self.banco.adiciona_transacao( self.compras.dicionario_compras, id_compra )
+        troco = self.compras.finaliza( pago )
+
         
         window['-TXT-TROCO-'].update( 'Troco: R$' + str( troco ) )
 
